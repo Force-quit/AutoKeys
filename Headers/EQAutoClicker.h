@@ -11,8 +11,8 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>
-#include "../../Utilities/Qt/EQIntLineEdit/EQIntLineEdit.h"
-#include "../../Utilities/Qt/EQShortcutListener/EQShortcutListener.h"
+#include <EQUtilities/EQIntLineEdit.h>
+#include <EQUtilities/EQShortcutListener.h>
 
 
 class EQAutoClicker : public QMainWindow

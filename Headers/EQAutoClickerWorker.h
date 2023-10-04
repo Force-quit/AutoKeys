@@ -2,7 +2,7 @@
 
 #include <QObject>
 #include <Windows.h>
-#include "../../Utilities/Qt/EQKeyboardListener/EQKeyboardListener.h"
+#include <EQUtilities/EQKeyboardListener.h>
 
 class EQAutoClickerWorker  : public QObject
 {

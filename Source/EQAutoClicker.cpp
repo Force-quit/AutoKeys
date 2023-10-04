@@ -11,8 +11,8 @@
 #include <QButtonGroup>
 #include <QFileDialog>
 #include <QMessageBox>
-#include "../../Utilities/Qt/EQShortcutListener/EQShortcutListener.h"
-#include "../../Utilities/Qt/EQIntLineEdit/EQIntLineEdit.h"
+#include <EQUtilities/EQKeyboardListener.h>
+#include <EQUtilities/EQIntLineEdit.h>
 #include <QTabBar>
 #include <QDir>
 #include <QFocusEvent>
