@@ -42,13 +42,8 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="AutoClicker.rc">
+    <ResourceCompile Include="Resources\AutoClicker.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Headers\resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
