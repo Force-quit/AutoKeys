@@ -39,7 +39,7 @@ EQAutoClicker::EQAutoClicker(QWidget* parent)
 	centralWidget->setLayout(centralLayout);
 	setCentralWidget(centralWidget);
 	setWindowIcon(QIcon(APP_PATH + "/mouse.png"));
-	setWindowTitle("AutoClicker(v1.2)");
+	setWindowTitle("AutoClicker");
 
 	widgetsToDisable.append({ clickHoldTimeEdit, timeBetweenClicksEdit,
 		leftClickButton, rightClickButton, saveButton, loadButton });
