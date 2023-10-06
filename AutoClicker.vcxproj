@@ -117,6 +117,16 @@
     <QtMoc Include="Headers\EQAutoClicker.h" />
     <QtMoc Include="Headers\EQAutoClickerWorker.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\mouse.ico" />
+    <Image Include="Resources\mouse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AutoClicker.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Headers\resource.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />
