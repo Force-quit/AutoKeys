@@ -1,4 +1,4 @@
-#include "EQAutoClickerWorker.h"
+#include "../Headers/EQAutoClickerWorker.h"
 #include <QTimer>
 #include <Windows.h>
 

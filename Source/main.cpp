@@ -1,5 +1,5 @@
 #include <QApplication>
-#include "EQAutoClicker.h"
+#include "../Headers/EQAutoClicker.h"
 
 int main(int argc, char *argv[])
 {

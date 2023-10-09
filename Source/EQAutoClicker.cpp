@@ -1,5 +1,5 @@
-#include "EQAutoClicker.h"
-#include "EQAutoClickerWorker.h"
+#include "../Headers/EQAutoClicker.h"
+#include "../Headers/EQAutoClickerWorker.h"
 #include <QFile>
 #include <QBoxLayout>
 #include <QGroupBox>
