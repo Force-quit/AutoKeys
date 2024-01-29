@@ -30,9 +30,6 @@ private slots:
 	void loadConfiguration();
 
 private:
-	const QString APP_PATH;
-	const QString CONFIGS_PATH;
-
 	EQAutoClickerWorker* worker;
 	QThread workerThread;
 

@@ -20,15 +20,13 @@
 #include <QIcon>
 #include <QVector>
 #include <QCoreApplication>
-
+#include <QStandardPaths>
 
 EQAutoClicker::EQAutoClicker(QWidget* parent)
 	: QMainWindow(parent),
 	clickHoldTimeEdit(), timeBetweenClicksEdit(), leftClickButton(), rightClickButton(),
-	saveButton(), loadButton(), widgetsToDisable(), worker(), configurationText(), shortcutListener(), activationStatusText(),
-	APP_PATH(QCoreApplication::applicationDirPath()), CONFIGS_PATH(QCoreApplication::applicationDirPath() + "/Configs")
+	saveButton(), loadButton(), widgetsToDisable(), worker(), configurationText(), shortcutListener(), activationStatusText()
 {
-	QDir().mkdir(CONFIGS_PATH);
 	worker = new EQAutoClickerWorker;
 
 	QVBoxLayout* centralLayout{ new QVBoxLayout };
@@ -38,8 +36,7 @@ EQAutoClicker::EQAutoClicker(QWidget* parent)
 	QWidget* centralWidget{ new QWidget };
 	centralWidget->setLayout(centralLayout);
 	setCentralWidget(centralWidget);
-	setWindowIcon(QIcon(APP_PATH + "/mouse.png"));
-	setWindowTitle("AutoClicker");
+	setWindowIcon(QIcon(":/images/mouse.png"));
 
 	widgetsToDisable.append({ clickHoldTimeEdit, timeBetweenClicksEdit,
 		leftClickButton, rightClickButton, saveButton, loadButton });
@@ -187,67 +184,78 @@ void EQAutoClicker::enableWidgets()
 
 void EQAutoClicker::saveConfiguration()
 {
-	QString filePath = QFileDialog::getSaveFileName(this, "Save your AutoClicker configuration", CONFIGS_PATH, "text files (*.txt)");
+	QString wConfigsFolderPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
-	if (!filePath.isEmpty())
+	if (!wConfigsFolderPath.isEmpty())
 	{
-		QFile file(filePath);
-		if (file.open(QIODevice::WriteOnly | QIODevice::Text))
-		{
-			QTextStream out(&file);
-			out << worker->getClickHoldTime() << ',' << worker->getTimeBetweenClicks() << ',' << worker->isTargetLeftClick() << '\n';
-
-			QVector<int> shortcutKeys = shortcutListener->getTargetKeys();
-			for (int i = 0; i < shortcutKeys.size() - 1; ++i)
-				out << i << ',';
-			out << shortcutKeys[shortcutKeys.size() - 1];
-
-			configurationText->setText(QDir().relativeFilePath(filePath));
-		}
-		else
-		{
-			QMessageBox::critical(this, 
-				"File error",
-				"Can't open " + filePath + " for writing.",
-				QMessageBox::Ok);
-		}
-
-
-		file.close();
+		wConfigsFolderPath += "/AutoClicker/";
+		QDir().mkdir(wConfigsFolderPath);
 	}
+
+	QString filePath = QFileDialog::getSaveFileName(this, "Save your AutoClicker configuration", wConfigsFolderPath, "text files (*.txt)");
+
+
+	if (filePath.isEmpty())
+		return;
+
+	QFile file(filePath);
+	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+	{
+		QMessageBox::critical(this, "File error", "Can't open " + filePath + " for writing.", QMessageBox::Ok);
+		return;
+	}
+
+	QTextStream out(&file);
+	out << worker->getClickHoldTime() << ',' << worker->getTimeBetweenClicks() << ',' << worker->isTargetLeftClick() << '\n';
+
+	QVector<int> shortcutKeys = shortcutListener->getTargetKeys();
+	for (int i = 0; i < shortcutKeys.size() - 1; ++i)
+		out << i << ',';
+	out << shortcutKeys[shortcutKeys.size() - 1];
+
+	configurationText->setText(QDir().relativeFilePath(filePath));
 }
 
 void EQAutoClicker::loadConfiguration()
 {
-	QString filePath = QFileDialog::getOpenFileName(this, "Load your AutoClicker configuration", CONFIGS_PATH, "text files (*.txt)");
-
-	if (!filePath.isEmpty())
+	QString wConfigsFolderPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+	if (!wConfigsFolderPath.isEmpty())
 	{
-		QFile file(filePath);
-		if (file.open(QIODevice::ReadOnly | QIODevice::Text))
-		{
-			QByteArrayList valuesList{ file.readLine().split(',') };
-			worker->setClickHoldTime(valuesList[0].toUInt());
-			worker->setTimeBetweenClicks(valuesList[1].toUInt());
+		wConfigsFolderPath += "/AutoClicker/";
+	}
 
-			configurationText->setText(QDir().relativeFilePath(filePath));
-			clickHoldTimeEdit->setText(QString::number(worker->getClickHoldTime()));
-			timeBetweenClicksEdit->setText(QString::number(worker->getTimeBetweenClicks()));
-			if (valuesList[2].toShort())
-				leftClickButton->click();
-			else
-				rightClickButton->click();
-		}
-		else
-		{
-			QMessageBox msgBox;
-			msgBox.setText("File error");
-			msgBox.setInformativeText("Error reading file");
-			msgBox.setStandardButtons(QMessageBox::Ok);
-			msgBox.setDefaultButton(QMessageBox::Ok);
-			msgBox.exec();
-		}
-		file.close();
+	QString filePath = QFileDialog::getOpenFileName(this, "Load your AutoClicker configuration", wConfigsFolderPath, "text files (*.txt)");
+
+	if (filePath.isEmpty())
+		return;
+
+	QFile file(filePath);
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
+		QMessageBox msgBox;
+		msgBox.setText("File error");
+		msgBox.setInformativeText("Error reading file");
+		msgBox.setStandardButtons(QMessageBox::Ok);
+		msgBox.setDefaultButton(QMessageBox::Ok);
+		msgBox.exec();
+		return;
+	}
+
+	QByteArrayList valuesList{ file.readLine().split(',') };
+	worker->setClickHoldTime(valuesList[0].toUInt());
+	worker->setTimeBetweenClicks(valuesList[1].toUInt());
+
+	configurationText->setText(QDir().relativeFilePath(filePath));
+	clickHoldTimeEdit->setText(QString::number(worker->getClickHoldTime()));
+	timeBetweenClicksEdit->setText(QString::number(worker->getTimeBetweenClicks()));
+
+	if (valuesList[2].toShort())
+	{
+		leftClickButton->click();
+	}
+	else
+	{
+		rightClickButton->click();
 	}
 }
 
