@@ -46,7 +46,7 @@ QGroupBox* EQAutoClicker::initParameters()
 	QGroupBox* parameters{ new QGroupBox("Parameters") };
 	QVBoxLayout* parametersLayout{ new QVBoxLayout };
 	parametersLayout->addLayout(initClickHoldTime());
-	parametersLayout->addLayout(initTimeBetweenClicks());
+	parametersLayout->addLayout(initClicksInterval());
 	parametersLayout->addLayout(initClickButton());
 	parametersLayout->addLayout(initSaveAndLoad());
 	parameters->setLayout(parametersLayout);
@@ -101,7 +101,7 @@ QHBoxLayout* EQAutoClicker::initClickHoldTime()
 	return clickHoldTimeLayout;
 }
 
-QHBoxLayout* EQAutoClicker::initTimeBetweenClicks()
+QHBoxLayout* EQAutoClicker::initClicksInterval()
 {
 	QHBoxLayout* timeBetweenClickLayout{ new QHBoxLayout };
 

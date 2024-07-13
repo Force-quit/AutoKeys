@@ -31,7 +31,7 @@ private slots:
 private:
 	QGroupBox* initParameters();
 	QHBoxLayout* initClickHoldTime();
-	QHBoxLayout* initTimeBetweenClicks();
+	QHBoxLayout* initClicksInterval();
 	QHBoxLayout* initClickButton();
 	QHBoxLayout* initSaveAndLoad();
 	QGroupBox* initActivationLayout();
