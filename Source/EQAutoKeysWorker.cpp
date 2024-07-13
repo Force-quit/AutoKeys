@@ -1,8 +1,8 @@
-#include "../Headers/EQAutoClickerWorker.h"
+#include "../Headers/EQAutoKeysWorker.h"
 #include <QTimer>
 import eutilities;
 
-void EQAutoClickerWorker::switchState()
+void EQAutoKeysWorker::switchState()
 {
 	mActive = !mActive;
 	if (mActive)
@@ -16,17 +16,17 @@ void EQAutoClickerWorker::switchState()
 	}
 }
 
-void EQAutoClickerWorker::clickDown()
+void EQAutoKeysWorker::clickDown()
 {
 	if (mActive)
 	{
 		eutilities::pressKey(mLeftClick ? eutilities::LEFT_CLICK : eutilities::RIGHT_CLICK);
-		QTimer::singleShot(mClickHoldTime, this, &EQAutoClickerWorker::clickUp);
+		QTimer::singleShot(mClickHoldTime, this, &EQAutoKeysWorker::clickUp);
 	}
 }
 
-void EQAutoClickerWorker::clickUp()
+void EQAutoKeysWorker::clickUp()
 {
 	eutilities::releaseKey(mLeftClick ? eutilities::LEFT_CLICK : eutilities::RIGHT_CLICK);
-	QTimer::singleShot(mClickInterval, this, &EQAutoClickerWorker::clickDown);
+	QTimer::singleShot(mClickInterval, this, &EQAutoKeysWorker::clickDown);
 }

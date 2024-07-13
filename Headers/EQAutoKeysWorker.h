@@ -2,12 +2,12 @@
 
 #include <QObject>
 
-class EQAutoClickerWorker : public QObject
+class EQAutoKeysWorker : public QObject
 {
 	Q_OBJECT
 
 public:
-	EQAutoClickerWorker() = default;
+	EQAutoKeysWorker() = default;
 
 	static constexpr int MIN_INTERVAL{ 1 };
 	static constexpr int MAX_INTERVAL{ std::numeric_limits<int>::max() };

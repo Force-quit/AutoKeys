@@ -1,5 +1,5 @@
-#include "../Headers/EQAutoClicker.h"
-#include "../Headers/EQAutoClickerWorker.h"
+#include "../Headers/EQAutoKeys.h"
+#include "../Headers/EQAutoKeysWorker.h"
 #include <EQUtilities/EQIntLineEdit.h>
 #include <QBoxLayout>
 #include <QButtonGroup>
@@ -20,7 +20,7 @@
 #include <QTabBar>
 #include <QVector>
 
-EQAutoClicker::EQAutoClicker()
+EQAutoKeys::EQAutoKeys()
 {
 	QWidget* centralWidget{ new QWidget };
 	QVBoxLayout* centralLayout{ new QVBoxLayout };
@@ -39,7 +39,7 @@ EQAutoClicker::EQAutoClicker()
 	setWindowIcon(QIcon(":/images/mouse.png"));
 }
 
-QGroupBox* EQAutoClicker::initParameters()
+QGroupBox* EQAutoKeys::initParameters()
 {
 	QGroupBox* parameters{ new QGroupBox("Parameters") };
 	QVBoxLayout* parametersLayout{ new QVBoxLayout };
@@ -50,7 +50,7 @@ QGroupBox* EQAutoClicker::initParameters()
 	return parameters;
 }
 
-QGroupBox* EQAutoClicker::initActivationLayout()
+QGroupBox* EQAutoKeys::initActivationLayout()
 {
 	QGroupBox* activationGroupBox{ new QGroupBox("Activation") };
 	QVBoxLayout* groupBoxLayout{ new QVBoxLayout };
@@ -68,12 +68,12 @@ QGroupBox* EQAutoClicker::initActivationLayout()
 	groupBoxLayout->addLayout(activationStatusLayout);
 	activationGroupBox->setLayout(groupBoxLayout);
 
-	connect(mShortcutPicker, &EQShortcutPicker::startedChangingShortcut, this, &EQAutoClicker::disableWidgets);
-	connect(mShortcutPicker, &EQShortcutPicker::stoppedChangingShortcut, this, &EQAutoClicker::enableWidgets);
-	connect(mShortcutPicker, &EQShortcutPicker::shortcutPressed, mInputRecorderWorker, &EQAutoClickerWorker::switchState);
+	connect(mShortcutPicker, &EQShortcutPicker::startedChangingShortcut, this, &EQAutoKeys::disableWidgets);
+	connect(mShortcutPicker, &EQShortcutPicker::stoppedChangingShortcut, this, &EQAutoKeys::enableWidgets);
+	connect(mShortcutPicker, &EQShortcutPicker::shortcutPressed, mInputRecorderWorker, &EQAutoKeysWorker::switchState);
 
-	connect(mInputRecorderWorker, &EQAutoClickerWorker::activated, this, &EQAutoClicker::disableWidgets);
-	connect(mInputRecorderWorker, &EQAutoClickerWorker::deactivated, this, &EQAutoClicker::enableWidgets);
+	connect(mInputRecorderWorker, &EQAutoKeysWorker::activated, this, &EQAutoKeys::disableWidgets);
+	connect(mInputRecorderWorker, &EQAutoKeysWorker::deactivated, this, &EQAutoKeys::enableWidgets);
 
 	connect(&mWorkerThread, &QThread::finished, mInputRecorderWorker, &QObject::deleteLater);
 	mInputRecorderWorker->moveToThread(&mWorkerThread);
@@ -82,39 +82,39 @@ QGroupBox* EQAutoClicker::initActivationLayout()
 	return activationGroupBox;
 }
 
-QHBoxLayout* EQAutoClicker::initClickHoldTime()
+QHBoxLayout* EQAutoKeys::initClickHoldTime()
 {
 	QHBoxLayout* clickHoldTimeLayout{ new QHBoxLayout };
 
 	clickHoldTimeLayout->addWidget(new QLabel("Click hold time :"));
 
-	mClickHoldTimeEdit = new EQIntLineEdit(EQAutoClickerWorker::MIN_INTERVAL, EQAutoClickerWorker::MAX_INTERVAL, EQAutoClickerWorker::DEFAULT_HOLD_TIME);
+	mClickHoldTimeEdit = new EQIntLineEdit(EQAutoKeysWorker::MIN_INTERVAL, EQAutoKeysWorker::MAX_INTERVAL, EQAutoKeysWorker::DEFAULT_HOLD_TIME);
 	clickHoldTimeLayout->addWidget(mClickHoldTimeEdit);
 
 	clickHoldTimeLayout->addWidget(new QLabel("ms"));
 
-	connect(mClickHoldTimeEdit, &EQIntLineEdit::valueChanged, mInputRecorderWorker, &EQAutoClickerWorker::setClickHoldTime);
+	connect(mClickHoldTimeEdit, &EQIntLineEdit::valueChanged, mInputRecorderWorker, &EQAutoKeysWorker::setClickHoldTime);
 
 	return clickHoldTimeLayout;
 }
 
-QHBoxLayout* EQAutoClicker::initClicksInterval()
+QHBoxLayout* EQAutoKeys::initClicksInterval()
 {
 	QHBoxLayout* timeBetweenClickLayout{ new QHBoxLayout };
 
 	timeBetweenClickLayout->addWidget(new QLabel("Clicks interval :"));
 
-	mClickIntervalEdit = new EQIntLineEdit(EQAutoClickerWorker::MIN_INTERVAL, EQAutoClickerWorker::MAX_INTERVAL, EQAutoClickerWorker::DEFAULT_BETWEEN_TIME);
+	mClickIntervalEdit = new EQIntLineEdit(EQAutoKeysWorker::MIN_INTERVAL, EQAutoKeysWorker::MAX_INTERVAL, EQAutoKeysWorker::DEFAULT_BETWEEN_TIME);
 	timeBetweenClickLayout->addWidget(mClickIntervalEdit);
 
 	timeBetweenClickLayout->addWidget(new QLabel("ms"));
 
-	connect(mClickIntervalEdit, &EQIntLineEdit::valueChanged, mInputRecorderWorker, &EQAutoClickerWorker::setClickInterval);
+	connect(mClickIntervalEdit, &EQIntLineEdit::valueChanged, mInputRecorderWorker, &EQAutoKeysWorker::setClickInterval);
 
 	return timeBetweenClickLayout;
 }
 
-QHBoxLayout* EQAutoClicker::initClickButton()
+QHBoxLayout* EQAutoKeys::initClickButton()
 {
 	QHBoxLayout* clickButtonLayout{ new QHBoxLayout };
 	clickButtonLayout->setAlignment(Qt::AlignLeft);
@@ -138,7 +138,7 @@ QHBoxLayout* EQAutoClicker::initClickButton()
 	return clickButtonLayout;
 }
 
-void EQAutoClicker::disableWidgets()
+void EQAutoKeys::disableWidgets()
 {
 	for (auto i : mWidgetsToDisable)
 	{
@@ -150,7 +150,7 @@ void EQAutoClicker::disableWidgets()
 	}
 }
 
-void EQAutoClicker::enableWidgets()
+void EQAutoKeys::enableWidgets()
 {
 	for (auto i : mWidgetsToDisable)
 	{
@@ -159,7 +159,7 @@ void EQAutoClicker::enableWidgets()
 	mActivationStatusText->setText("Innactive");
 }
 
-EQAutoClicker::~EQAutoClicker()
+EQAutoKeys::~EQAutoKeys()
 {
 	mWorkerThread.quit();
 	mWorkerThread.wait();

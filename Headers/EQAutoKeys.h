@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EQAutoClickerWorker.h"
+#include "EQAutoKeysWorker.h"
 #include <EQUtilities/EQIntLineEdit.h>
 #include <EQUtilities/EQShortcutPicker.h>
 #include <QGroupBox>
@@ -14,13 +14,13 @@
 #include <QVector>
 #include <QWidget>
 
-class EQAutoClicker : public QMainWindow
+class EQAutoKeys : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	EQAutoClicker();
-	~EQAutoClicker();
+	EQAutoKeys();
+	~EQAutoKeys();
 
 private slots:
 	void disableWidgets();
@@ -33,7 +33,7 @@ private:
 	QHBoxLayout* initClickButton();
 	QGroupBox* initActivationLayout();
 
-	EQAutoClickerWorker* mInputRecorderWorker{ new EQAutoClickerWorker };
+	EQAutoKeysWorker* mInputRecorderWorker{ new EQAutoKeysWorker };
 	QThread mWorkerThread;
 
 	EQShortcutPicker* mShortcutPicker{};

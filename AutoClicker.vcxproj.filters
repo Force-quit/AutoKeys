@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\EQAutoClicker.cpp">
+    <ClCompile Include="Source\EQAutoKeys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\EQAutoClickerWorker.cpp">
+    <ClCompile Include="Source\EQAutoKeysWorker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\main.cpp">
@@ -26,10 +26,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Headers\EQAutoClicker.h">
+    <QtMoc Include="Headers\EQAutoKeys.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="Headers\EQAutoClickerWorker.h">
+    <QtMoc Include="Headers\EQAutoKeysWorker.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
