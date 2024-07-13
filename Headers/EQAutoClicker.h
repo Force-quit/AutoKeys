@@ -25,15 +25,12 @@ public:
 private slots:
 	void disableWidgets();
 	void enableWidgets();
-	void saveConfiguration();
-	void loadConfiguration();
 
 private:
 	QGroupBox* initParameters();
 	QHBoxLayout* initClickHoldTime();
 	QHBoxLayout* initClicksInterval();
 	QHBoxLayout* initClickButton();
-	QHBoxLayout* initSaveAndLoad();
 	QGroupBox* initActivationLayout();
 
 	EQAutoClickerWorker* mInputRecorderWorker{ new EQAutoClickerWorker };
@@ -44,9 +41,6 @@ private:
 	EQIntLineEdit* mClickIntervalEdit{};
 	QRadioButton* mLeftClickButton{};
 	QRadioButton* mRightClickButton{};
-	QPushButton* mSaveButton{};
-	QPushButton* mLoadButton{};
-	QLabel* mConfigurationText{};
 	QLabel* mActivationStatusText{};
 	QVector<QWidget*> mWidgetsToDisable;
 };
