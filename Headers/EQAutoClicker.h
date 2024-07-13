@@ -1,26 +1,25 @@
 #pragma once
 
-#include <QMainWindow>
-#include <QWidget>
-#include <QString>
 #include "EQAutoClickerWorker.h"
-#include <QThread>
-#include <QRadioButton>
-#include <QPushButton>
-#include <QVector>
+#include <EQUtilities/EQIntLineEdit.h>
+#include <EQUtilities/EQShortcutPicker.h>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <EQUtilities/EQIntLineEdit.h>
-#include <EQUtilities/EQShortcutListener.h>
-
+#include <QMainWindow>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QString>
+#include <QThread>
+#include <QVector>
+#include <QWidget>
 
 class EQAutoClicker : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	EQAutoClicker(QWidget *parent = nullptr);
+	EQAutoClicker();
 	~EQAutoClicker();
 
 private slots:
@@ -30,26 +29,24 @@ private slots:
 	void loadConfiguration();
 
 private:
-	EQAutoClickerWorker* worker;
-	QThread workerThread;
-
-	EQShortcutListener* shortcutListener;
-	EQIntLineEdit* clickHoldTimeEdit;
-	EQIntLineEdit* timeBetweenClicksEdit;
-	QRadioButton* leftClickButton;
-	QRadioButton* rightClickButton;
-	QPushButton* saveButton;
-	QPushButton* loadButton;
-	QLabel* configurationText;
-	QLabel* activationStatusText;
-	QVector<QWidget*> widgetsToDisable;
-
 	QGroupBox* initParameters();
 	QHBoxLayout* initClickHoldTime();
-	QHBoxLayout* initTimeBetweenClicks();
+	QHBoxLayout* initClicksInterval();
 	QHBoxLayout* initClickButton();
 	QHBoxLayout* initSaveAndLoad();
-
 	QGroupBox* initActivationLayout();
 
+	EQAutoClickerWorker* mInputRecorderWorker{ new EQAutoClickerWorker };
+	QThread mWorkerThread;
+
+	EQShortcutPicker* mShortcutPicker{};
+	EQIntLineEdit* mClickHoldTimeEdit{};
+	EQIntLineEdit* mClickIntervalEdit{};
+	QRadioButton* mLeftClickButton{};
+	QRadioButton* mRightClickButton{};
+	QPushButton* mSaveButton{};
+	QPushButton* mLoadButton{};
+	QLabel* mConfigurationText{};
+	QLabel* mActivationStatusText{};
+	QVector<QWidget*> mWidgetsToDisable;
 };
