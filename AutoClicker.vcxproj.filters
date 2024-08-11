@@ -34,26 +34,26 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\mouse.png">
+    <QtRcc Include="Resources\Resource.qrc">
       <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Resources\mouse.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
+    </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resources\AutoClicker.rc">
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AutoKeys.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Resources\resource.h">
+    <Image Include="Resources\appIcon.ico">
       <Filter>Resource Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <QtRcc Include="Resources\Resource.qrc">
+    </Image>
+    <Image Include="Resources\appIcon.png">
       <Filter>Resource Files</Filter>
-    </QtRcc>
+    </Image>
   </ItemGroup>
 </Project>

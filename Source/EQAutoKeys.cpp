@@ -18,7 +18,7 @@ EQAutoKeys::EQAutoKeys()
 	centralLayout->addWidget(initParameters());
 	centralLayout->addWidget(initActivationLayout());
 
-	setWindowIcon(QIcon(":/images/mouse.png"));
+	setWindowIcon(QIcon(":/images/appIcon.png"));
 }
 
 QGroupBox* EQAutoKeys::initParameters()
