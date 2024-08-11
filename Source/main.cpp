@@ -1,4 +1,4 @@
-#include "../Headers/EQAutoClicker.h"
+#include "../Headers/EQAutoKeys.h"
 #include <QApplication>
 #include <QStyleFactory>
 
@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QApplication::setStyle(QStyleFactory::create("Fusion"));
-    EQAutoClicker w;
+    EQAutoKeys w;
     w.show();
     return QApplication::exec();
 }

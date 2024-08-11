@@ -22,6 +22,7 @@
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</WindowsTargetPlatformVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+    <ProjectName>AutoKeys</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -75,7 +76,8 @@
       </AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "Resources\mouse.png" "$(OutDir)"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -89,7 +91,8 @@
       </AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "Resources\mouse.png" "$(OutDir)"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -117,13 +120,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\EQAutoClicker.cpp" />
-    <ClCompile Include="Source\EQAutoClickerWorker.cpp" />
+    <ClCompile Include="Source\EQAutoKeys.cpp" />
+    <ClCompile Include="Source\EQAutoKeysWorker.cpp" />
     <ClCompile Include="Source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Headers\EQAutoClicker.h" />
-    <QtMoc Include="Headers\EQAutoClickerWorker.h" />
+    <QtMoc Include="Headers\EQAutoKeys.h" />
+    <QtMoc Include="Headers\EQAutoKeysWorker.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\mouse.ico" />
@@ -139,6 +142,9 @@
     <QtRcc Include="Resources\Resource.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\VS\EShortcutListener\EShortcutListener.vcxproj">
+      <Project>{f0193cf1-3db5-4e63-bb9a-296c59213c20}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\VS\EUtilities\EUtilities.vcxproj">
       <Project>{ab1fdb31-f30a-44f2-b563-f960687e73c8}</Project>
     </ProjectReference>
