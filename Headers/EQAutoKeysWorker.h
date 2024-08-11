@@ -1,41 +1,39 @@
 #pragma once
 
 #include <QObject>
+#include <span>
+#include <vector>
+
+import eutilities;
 
 class EQAutoKeysWorker : public QObject
 {
 	Q_OBJECT
 
 public:
-	EQAutoKeysWorker() = default;
-
 	static constexpr int MIN_INTERVAL{ 1 };
 	static constexpr int MAX_INTERVAL{ std::numeric_limits<int>::max() };
 	static constexpr int DEFAULT_HOLD_TIME{ 10 };
 	static constexpr int DEFAULT_BETWEEN_TIME{ 30 };
 
-	inline int clickHoldTime() const { return mClickHoldTime; }
-	inline int clickInterval() const { return mClickInterval; }
-	inline bool isTargetLeftClick() const { return mLeftClick; }
-	inline bool isActive() const { return mActive; }
-	inline void setLeftClick(bool iLeftClick) { mLeftClick = iLeftClick; }
+	int clickHoldTime() const;
+	int clickInterval() const;
+
+	void setTargetKeys(std::span<const eutilities::Key> iTargetKeys);
 
 public slots:
-	inline void setClickHoldTime(int iHoldTime) { mClickHoldTime = iHoldTime; }
-	inline void setClickInterval(int iInterval) { mClickInterval = iInterval; }
-	void switchState();
-
-signals:
-	void activated();
-	void deactivated();
+	void setKeysHoldTime(int iHoldTime);
+	void setPressInterval(int iInterval);
+	void start();
+	void stop();
 
 private slots:
 	void clickDown();
 	void clickUp();
 
 private:
+	std::vector<eutilities::Key> mTargetKeys;
 	int mClickHoldTime{ DEFAULT_HOLD_TIME };
 	int mClickInterval{ DEFAULT_BETWEEN_TIME };
-	bool mLeftClick{ true };
-	bool mActive{};
+	bool mIsActive{};
 };

@@ -1,32 +1,55 @@
 #include "../Headers/EQAutoKeysWorker.h"
 #include <QTimer>
+
 import eutilities;
 
-void EQAutoKeysWorker::switchState()
+int EQAutoKeysWorker::clickHoldTime() const
 {
-	mActive = !mActive;
-	if (mActive)
-	{
-		emit activated();
-		clickDown();
-	}
-	else
-	{
-		emit deactivated();
-	}
+	return mClickHoldTime;
+}
+
+int EQAutoKeysWorker::clickInterval() const
+{
+	return mClickInterval;
+}
+
+void EQAutoKeysWorker::setTargetKeys(std::span<const eutilities::Key> iTargetKeys)
+{
+	mTargetKeys = std::vector<eutilities::Key>(iTargetKeys.begin(), iTargetKeys.end());
+}
+
+void EQAutoKeysWorker::setPressInterval(int iInterval)
+{
+	mClickInterval = iInterval;
+}
+
+void EQAutoKeysWorker::setKeysHoldTime(int iHoldTime)
+{
+	mClickHoldTime = iHoldTime;
+}
+
+void EQAutoKeysWorker::start()
+{
+	mIsActive = true;
+	clickDown();
+}
+
+void EQAutoKeysWorker::stop()
+{
+	mIsActive = false;
 }
 
 void EQAutoKeysWorker::clickDown()
 {
-	if (mActive)
+	if (mIsActive)
 	{
-		eutilities::pressKey(mLeftClick ? eutilities::LEFT_CLICK : eutilities::RIGHT_CLICK);
+		//eutilities::pressKey(mLeftClick ? eutilities::LEFT_CLICK : eutilities::RIGHT_CLICK);
 		QTimer::singleShot(mClickHoldTime, this, &EQAutoKeysWorker::clickUp);
 	}
 }
 
 void EQAutoKeysWorker::clickUp()
 {
-	eutilities::releaseKey(mLeftClick ? eutilities::LEFT_CLICK : eutilities::RIGHT_CLICK);
+	//eutilities::releaseKey(mLeftClick ? eutilities::LEFT_CLICK : eutilities::RIGHT_CLICK);
 	QTimer::singleShot(mClickInterval, this, &EQAutoKeysWorker::clickDown);
 }

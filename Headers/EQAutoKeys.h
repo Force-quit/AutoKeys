@@ -7,11 +7,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMainWindow>
-#include <QPushButton>
-#include <QRadioButton>
-#include <QString>
 #include <QThread>
-#include <QVector>
 #include <QWidget>
 
 class EQAutoKeys : public QMainWindow
@@ -25,22 +21,24 @@ public:
 private slots:
 	void disableWidgets();
 	void enableWidgets();
+	void switchState();
+	void setTargetKeys();
 
 private:
 	QGroupBox* initParameters();
-	QHBoxLayout* initClickHoldTime();
-	QHBoxLayout* initClicksInterval();
-	QHBoxLayout* initClickButton();
+	QHBoxLayout* initKeysHoldTime();
+	QHBoxLayout* initPressInterval();
 	QGroupBox* initActivationLayout();
 
-	EQAutoKeysWorker* mInputRecorderWorker{ new EQAutoKeysWorker };
+	EQAutoKeysWorker* mAutoKeysWorker{ new EQAutoKeysWorker };
 	QThread mWorkerThread;
 
 	EQShortcutPicker* mShortcutPicker{};
-	EQIntLineEdit* mClickHoldTimeEdit{};
-	EQIntLineEdit* mClickIntervalEdit{};
-	QRadioButton* mLeftClickButton{};
-	QRadioButton* mRightClickButton{};
+	EQShortcutPicker* mTargetKeysPicker{};
+
+	EQIntLineEdit* mKeysHoldTimeEdit{};
+	EQIntLineEdit* mPressIntervalEdit{};
 	QLabel* mActivationStatusText{};
-	QVector<QWidget*> mWidgetsToDisable;
+
+	bool mIsActive{};
 };
