@@ -4,16 +4,6 @@
 #pragma warning(disable:5050)
 import eutilities;
 
-int EQAutoKeysWorker::clickHoldTime() const
-{
-	return mPressHoldTime;
-}
-
-int EQAutoKeysWorker::clickInterval() const
-{
-	return mPressInterval;
-}
-
 void EQAutoKeysWorker::setTargetKeys(std::span<const eutilities::Key> iTargetKeys)
 {
 	mTargetKeys = std::vector<eutilities::Key>(iTargetKeys.begin(), iTargetKeys.end());
@@ -24,6 +14,11 @@ void EQAutoKeysWorker::setPressInterval(int iInterval)
 	mPressInterval = iInterval;
 }
 
+void EQAutoKeysWorker::setActivationDelay(int iActivationDelay)
+{
+	mActivationDelay = iActivationDelay;
+}
+
 void EQAutoKeysWorker::setKeysHoldTime(int iHoldTime)
 {
 	mPressHoldTime = iHoldTime;
@@ -32,7 +27,9 @@ void EQAutoKeysWorker::setKeysHoldTime(int iHoldTime)
 void EQAutoKeysWorker::start()
 {
 	mIsActive = true;
-	pressKeys();
+	++mActivationCount;
+	eutilities::sleepFor(mActivationDelay);
+	pressKeys(mActivationCount);
 }
 
 void EQAutoKeysWorker::stop()
@@ -40,9 +37,9 @@ void EQAutoKeysWorker::stop()
 	mIsActive = false;
 }
 
-void EQAutoKeysWorker::pressKeys()
+void EQAutoKeysWorker::pressKeys(std::int8_t iActivationCount)
 {
-	if (!mIsActive)
+	if (!mIsActive || iActivationCount != mActivationCount)
 	{
 		return;
 	}
@@ -62,5 +59,5 @@ void EQAutoKeysWorker::releaseKeys()
 		eutilities::releaseKey(i);
 	}
 
-	QTimer::singleShot(mPressInterval, this, &EQAutoKeysWorker::pressKeys);
+	QTimer::singleShot(mPressInterval, std::bind_front(&EQAutoKeysWorker::pressKeys, this, mActivationCount));
 }

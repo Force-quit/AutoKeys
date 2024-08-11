@@ -26,9 +26,11 @@ private slots:
 
 private:
 	QGroupBox* initParameters();
-	QHBoxLayout* initKeysHoldTime();
-	QHBoxLayout* initPressInterval();
 	QGroupBox* initActivationLayout();
+
+	QHBoxLayout* initKeysHoldTimeLayout();
+	QHBoxLayout* initPressIntervalLayout();
+	QHBoxLayout* initActivationDelayLayout();
 
 	EQAutoKeysWorker* mAutoKeysWorker{ new EQAutoKeysWorker };
 	QThread mWorkerThread;
@@ -38,6 +40,8 @@ private:
 
 	EQIntLineEdit* mKeysHoldTimeEdit{};
 	EQIntLineEdit* mPressIntervalEdit{};
+	EQIntLineEdit* mActivationDelayEdit{};
+
 	QLabel* mActivationStatusText{};
 
 	bool mIsActive{};

@@ -31,8 +31,9 @@ QGroupBox* EQAutoKeys::initParameters()
 	wParametersLayout->addWidget(mTargetKeysPicker);
 	mTargetKeysPicker->setTargetKeys(std::vector{ eutilities::UNKNOWN });
 
-	wParametersLayout->addLayout(initKeysHoldTime());
-	wParametersLayout->addLayout(initPressInterval());
+	wParametersLayout->addLayout(initKeysHoldTimeLayout());
+	wParametersLayout->addLayout(initPressIntervalLayout());
+	wParametersLayout->addLayout(initActivationDelayLayout());
 
 	connect(mTargetKeysPicker, &EQShortcutPicker::startedChangingShortcut, this, &EQAutoKeys::disableWidgets);
 	connect(mTargetKeysPicker, &EQShortcutPicker::startedChangingShortcut, mShortcutPicker, &EQShortcutPicker::disableButton);
@@ -78,7 +79,7 @@ QGroupBox* EQAutoKeys::initActivationLayout()
 	return activationGroupBox;
 }
 
-QHBoxLayout* EQAutoKeys::initKeysHoldTime()
+QHBoxLayout* EQAutoKeys::initKeysHoldTimeLayout()
 {
 	auto* clickHoldTimeLayout{ new QHBoxLayout };
 
@@ -96,7 +97,7 @@ QHBoxLayout* EQAutoKeys::initKeysHoldTime()
 	return clickHoldTimeLayout;
 }
 
-QHBoxLayout* EQAutoKeys::initPressInterval()
+QHBoxLayout* EQAutoKeys::initPressIntervalLayout()
 {
 	auto* timeBetweenClickLayout{ new QHBoxLayout };
 
@@ -114,16 +115,36 @@ QHBoxLayout* EQAutoKeys::initPressInterval()
 	return timeBetweenClickLayout;
 }
 
+QHBoxLayout* EQAutoKeys::initActivationDelayLayout()
+{
+	auto* wActivationDelayLayout{ new QHBoxLayout };
+
+	auto* title{ new QLabel("Activation delay :") };
+	wActivationDelayLayout->addWidget(title);
+
+	mActivationDelayEdit = new EQIntLineEdit(0, EQAutoKeysWorker::MAX_INTERVAL, EQAutoKeysWorker::DEFAULT_ACTIVATION_DELAY);
+	wActivationDelayLayout->addWidget(mActivationDelayEdit);
+
+	auto* unitsLabel{ new QLabel("ms") };
+	wActivationDelayLayout->addWidget(unitsLabel);
+
+	connect(mActivationDelayEdit, &EQIntLineEdit::valueChanged, mAutoKeysWorker, &EQAutoKeysWorker::setActivationDelay);
+
+	return wActivationDelayLayout;
+}
+
 void EQAutoKeys::disableWidgets()
 {
 	mKeysHoldTimeEdit->setEnabled(false);
 	mPressIntervalEdit->setEnabled(false);
+	mActivationDelayEdit->setEnabled(false);
 }
 
 void EQAutoKeys::enableWidgets()
 {
 	mKeysHoldTimeEdit->setEnabled(true);
 	mPressIntervalEdit->setEnabled(true);
+	mActivationDelayEdit->setEnabled(true);
 }
 
 void EQAutoKeys::switchState()
