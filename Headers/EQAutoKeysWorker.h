@@ -34,7 +34,7 @@ private slots:
 
 private:
 	std::vector<eutilities::Key> mTargetKeys;
-	int mClickHoldTime{ DEFAULT_HOLD_TIME };
-	int mClickInterval{ DEFAULT_BETWEEN_TIME };
+	int mPressHoldTime{ DEFAULT_HOLD_TIME };
+	int mPressInterval{ DEFAULT_BETWEEN_TIME };
 	bool mIsActive{};
 };
