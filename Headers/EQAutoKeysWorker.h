@@ -4,6 +4,7 @@
 #include <span>
 #include <vector>
 
+#pragma warning(disable:5050)
 import eutilities;
 
 class EQAutoKeysWorker : public QObject
@@ -28,8 +29,8 @@ public slots:
 	void stop();
 
 private slots:
-	void clickDown();
-	void clickUp();
+	void pressKeys();
+	void releaseKeys();
 
 private:
 	std::vector<eutilities::Key> mTargetKeys;

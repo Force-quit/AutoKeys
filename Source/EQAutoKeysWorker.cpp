@@ -1,6 +1,7 @@
 #include "../Headers/EQAutoKeysWorker.h"
 #include <QTimer>
 
+#pragma warning(disable:5050)
 import eutilities;
 
 int EQAutoKeysWorker::clickHoldTime() const
@@ -31,7 +32,7 @@ void EQAutoKeysWorker::setKeysHoldTime(int iHoldTime)
 void EQAutoKeysWorker::start()
 {
 	mIsActive = true;
-	clickDown();
+	pressKeys();
 }
 
 void EQAutoKeysWorker::stop()
@@ -39,17 +40,23 @@ void EQAutoKeysWorker::stop()
 	mIsActive = false;
 }
 
-void EQAutoKeysWorker::clickDown()
+void EQAutoKeysWorker::pressKeys()
 {
 	if (mIsActive)
 	{
-		//eutilities::pressKey(mLeftClick ? eutilities::LEFT_CLICK : eutilities::RIGHT_CLICK);
-		QTimer::singleShot(mClickHoldTime, this, &EQAutoKeysWorker::clickUp);
+		for (auto i : mTargetKeys)
+		{
+			eutilities::pressKey(i);
+		}
+		QTimer::singleShot(mClickHoldTime, this, &EQAutoKeysWorker::releaseKeys);
 	}
 }
 
-void EQAutoKeysWorker::clickUp()
+void EQAutoKeysWorker::releaseKeys()
 {
-	//eutilities::releaseKey(mLeftClick ? eutilities::LEFT_CLICK : eutilities::RIGHT_CLICK);
-	QTimer::singleShot(mClickInterval, this, &EQAutoKeysWorker::clickDown);
+	for (auto i : mTargetKeys)
+	{
+		eutilities::releaseKey(i);
+	}
+	QTimer::singleShot(mClickInterval, this, &EQAutoKeysWorker::pressKeys);
 }

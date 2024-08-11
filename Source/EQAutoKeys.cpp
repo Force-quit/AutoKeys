@@ -2,23 +2,11 @@
 #include "../Headers/EQAutoKeysWorker.h"
 #include <EQUtilities/EQIntLineEdit.h>
 #include <QBoxLayout>
-#include <QButtonGroup>
 #include <QCoreApplication>
-#include <QDir>
-#include <QFile>
-#include <QFileDialog>
-#include <QFocusEvent>
 #include <QGroupBox>
 #include <QIcon>
-#include <QIntValidator>
 #include <QLabel>
 #include <QLineEdit>
-#include <QMessageBox>
-#include <QPushButton>
-#include <QRadioButton>
-#include <QStandardPaths>
-#include <QTabBar>
-#include <QVector>
 
 EQAutoKeys::EQAutoKeys()
 {
@@ -30,7 +18,6 @@ EQAutoKeys::EQAutoKeys()
 	centralLayout->addWidget(initParameters());
 	centralLayout->addWidget(initActivationLayout());
 
-	mShortcutPicker->startListening();
 	setWindowIcon(QIcon(":/images/mouse.png"));
 }
 
@@ -41,7 +28,6 @@ QGroupBox* EQAutoKeys::initParameters()
 	auto* wParametersLayout{ new QVBoxLayout };
 	wParameters->setLayout(wParametersLayout);
 
-	mTargetKeysPicker = new EQShortcutPicker("Target keys :");
 	wParametersLayout->addWidget(mTargetKeysPicker);
 	mTargetKeysPicker->setTargetKeys(std::vector{ eutilities::UNKNOWN });
 
@@ -49,8 +35,13 @@ QGroupBox* EQAutoKeys::initParameters()
 	wParametersLayout->addLayout(initPressInterval());
 
 	connect(mTargetKeysPicker, &EQShortcutPicker::startedChangingShortcut, this, &EQAutoKeys::disableWidgets);
+	connect(mTargetKeysPicker, &EQShortcutPicker::startedChangingShortcut, mShortcutPicker, &EQShortcutPicker::disableButton);
+	connect(mTargetKeysPicker, &EQShortcutPicker::startedChangingShortcut, mShortcutPicker, &EQShortcutPicker::stopListening);
+
 	connect(mTargetKeysPicker, &EQShortcutPicker::stoppedChangingShortcut, this, &EQAutoKeys::enableWidgets);
+	connect(mTargetKeysPicker, &EQShortcutPicker::stoppedChangingShortcut, mShortcutPicker, &EQShortcutPicker::enableButton);
 	connect(mTargetKeysPicker, &EQShortcutPicker::stoppedChangingShortcut, this, &EQAutoKeys::setTargetKeys);
+	connect(mTargetKeysPicker, &EQShortcutPicker::stoppedChangingShortcut, mShortcutPicker, &EQShortcutPicker::startListening);
 
 	return wParameters;
 }
@@ -62,7 +53,6 @@ QGroupBox* EQAutoKeys::initActivationLayout()
 	auto* groupBoxLayout{ new QVBoxLayout };
 	activationGroupBox->setLayout(groupBoxLayout);
 
-	mShortcutPicker = new EQShortcutPicker("Activation shortcut :");
 	groupBoxLayout->addWidget(mShortcutPicker);
 
 	auto* activationStatusLayout{ new QHBoxLayout };
@@ -76,7 +66,9 @@ QGroupBox* EQAutoKeys::initActivationLayout()
 	activationStatusLayout->addWidget(mActivationStatusText);
 
 	connect(mShortcutPicker, &EQShortcutPicker::startedChangingShortcut, this, &EQAutoKeys::disableWidgets);
+	connect(mShortcutPicker, &EQShortcutPicker::startedChangingShortcut, mTargetKeysPicker, &EQShortcutPicker::disableButton);
 	connect(mShortcutPicker, &EQShortcutPicker::stoppedChangingShortcut, this, &EQAutoKeys::enableWidgets);
+	connect(mShortcutPicker, &EQShortcutPicker::stoppedChangingShortcut, mTargetKeysPicker, &EQShortcutPicker::enableButton);
 	connect(mShortcutPicker, &EQShortcutPicker::shortcutPressed, this, &EQAutoKeys::switchState);
 
 	connect(&mWorkerThread, &QThread::finished, mAutoKeysWorker, &QObject::deleteLater);
@@ -124,18 +116,14 @@ QHBoxLayout* EQAutoKeys::initPressInterval()
 
 void EQAutoKeys::disableWidgets()
 {
-	mTargetKeysPicker->setEnabled(false);
 	mKeysHoldTimeEdit->setEnabled(false);
 	mPressIntervalEdit->setEnabled(false);
-	mShortcutPicker->setEnabled(false);
 }
 
 void EQAutoKeys::enableWidgets()
 {
-	mTargetKeysPicker->setEnabled(true);
 	mKeysHoldTimeEdit->setEnabled(true);
 	mPressIntervalEdit->setEnabled(true);
-	mShortcutPicker->setEnabled(true);
 }
 
 void EQAutoKeys::switchState()

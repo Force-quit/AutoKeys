@@ -33,8 +33,8 @@ private:
 	EQAutoKeysWorker* mAutoKeysWorker{ new EQAutoKeysWorker };
 	QThread mWorkerThread;
 
-	EQShortcutPicker* mShortcutPicker{};
-	EQShortcutPicker* mTargetKeysPicker{};
+	EQShortcutPicker* mShortcutPicker{ new EQShortcutPicker("Activation shortcut :") };
+	EQShortcutPicker* mTargetKeysPicker{ new EQShortcutPicker("Target keys :") };
 
 	EQIntLineEdit* mKeysHoldTimeEdit{};
 	EQIntLineEdit* mPressIntervalEdit{};
