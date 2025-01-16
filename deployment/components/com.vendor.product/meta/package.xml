@@ -2,8 +2,8 @@
 <Package>
     <DisplayName>AutoKeys</DisplayName>
     <Description>Save time and energy with AutoKeys!</Description>
-    <Version>2.0</Version>
-    <ReleaseDate>2024-08-11</ReleaseDate>
+    <Version>2.1</Version>
+    <ReleaseDate>2025-01-16</ReleaseDate>
     <Default>script</Default>
     <ForcedInstallation>true</ForcedInstallation>
     <Script>script.qs</Script>
