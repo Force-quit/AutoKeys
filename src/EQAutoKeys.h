@@ -1,8 +1,8 @@
 #pragma once
 
 #include "EQAutoKeysWorker.h"
-#include <EQUtilities/EQIntLineEdit.h>
-#include <EQUtilities/EQShortcutPicker.h>
+#include <EQIntLineEdit.hpp>
+#include <EQShortcutPicker.hpp>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>

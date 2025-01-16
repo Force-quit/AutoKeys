@@ -1,6 +1,7 @@
-#include "../Headers/EQAutoKeys.h"
-#include "../Headers/EQAutoKeysWorker.h"
-#include <EQUtilities/EQIntLineEdit.h>
+#include "EQAutoKeys.h"
+#include "EQAutoKeysWorker.h"
+#include <EQIntLineEdit.hpp>
+#include <EUtilities-Windows.hpp>
 #include <QBoxLayout>
 #include <QCoreApplication>
 #include <QGroupBox>
@@ -18,7 +19,7 @@ EQAutoKeys::EQAutoKeys()
 	centralLayout->addWidget(initParameters());
 	centralLayout->addWidget(initActivationLayout());
 
-	setWindowIcon(QIcon(":/images/appIcon.png"));
+	setWindowIcon(QIcon(":/images/icon.png"));
 }
 
 QGroupBox* EQAutoKeys::initParameters()
