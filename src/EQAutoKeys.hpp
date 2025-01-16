@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EQAutoKeysWorker.h"
+#include "EQAutoKeysWorker.hpp"
 #include <EQIntLineEdit.hpp>
 #include <EQShortcutPicker.hpp>
 #include <QGroupBox>

@@ -1,4 +1,4 @@
-#include "EQAutoKeys.h"
+#include "EQAutoKeys.hpp"
 #include <QApplication>
 #include <QStyleFactory>
 

@@ -1,4 +1,4 @@
-#include "EQAutoKeysWorker.h"
+#include "EQAutoKeysWorker.hpp"
 #include <QTimer>
 #include <EUtilities.hpp>
 #include <EUtilities-Windows.hpp>

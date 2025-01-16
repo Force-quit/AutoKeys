@@ -1,5 +1,5 @@
-#include "EQAutoKeys.h"
-#include "EQAutoKeysWorker.h"
+#include "EQAutoKeys.hpp"
+#include "EQAutoKeysWorker.hpp"
 #include <EQIntLineEdit.hpp>
 #include <EUtilities-Windows.hpp>
 #include <QBoxLayout>

@@ -24,9 +24,9 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(EQUtilities)
 
 set(SOURCE
-    src/EQAutoKeys.h
+    src/EQAutoKeys.hpp
     src/EQAutoKeys.cpp
-    src/EQAutoKeysWorker.h
+    src/EQAutoKeysWorker.hpp
     src/EQAutoKeysWorker.cpp
     src/main.cpp
 )
