@@ -155,12 +155,14 @@ void EQAutoKeys::switchState()
 	if (mIsActive)
 	{
 		mActivationStatusText->setText("Active");
+		setWindowIcon(QIcon(":/images/icon-active.png"));
 		disableWidgets();
 		mAutoKeysWorker->start();
 	}
 	else
 	{
 		mActivationStatusText->setText("Innactive");
+		setWindowIcon(QIcon(":/images/icon.png"));
 		enableWidgets();
 		mAutoKeysWorker->stop();
 	}
