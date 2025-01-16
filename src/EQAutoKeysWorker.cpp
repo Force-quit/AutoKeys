@@ -1,8 +1,7 @@
-#include "../Headers/EQAutoKeysWorker.h"
+#include "EQAutoKeysWorker.h"
 #include <QTimer>
-
-#pragma warning(disable:5050)
-import eutilities;
+#include <EUtilities.hpp>
+#include <EUtilities-Windows.hpp>
 
 void EQAutoKeysWorker::setTargetKeys(std::span<const eutilities::Key> iTargetKeys)
 {
@@ -28,7 +27,7 @@ void EQAutoKeysWorker::start()
 {
 	mIsActive = true;
 	++mActivationCount;
-	eutilities::sleepFor(mActivationDelay);
+	eutilities::sleepFor(std::chrono::milliseconds(mActivationDelay));
 	pressKeys(mActivationCount);
 }
 
@@ -46,7 +45,7 @@ void EQAutoKeysWorker::pressKeys(std::int8_t iActivationCount)
 
 	for (auto i : mTargetKeys)
 	{
-		eutilities::pressKey(i);
+		eutilities::keyPress(i);
 	}
 
 	QTimer::singleShot(mPressHoldTime, this, &EQAutoKeysWorker::releaseKeys);
@@ -56,7 +55,7 @@ void EQAutoKeysWorker::releaseKeys()
 {
 	for (auto i : mTargetKeys)
 	{
-		eutilities::releaseKey(i);
+		eutilities::keyPress(i);
 	}
 
 	QTimer::singleShot(mPressInterval, std::bind_front(&EQAutoKeysWorker::pressKeys, this, mActivationCount));
