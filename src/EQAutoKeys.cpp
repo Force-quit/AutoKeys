@@ -64,7 +64,7 @@ QGroupBox* EQAutoKeys::initActivationLayout()
 	auto* activationStatusLabel{ new QLabel("Status :") };
 	activationStatusLayout->addWidget(activationStatusLabel);
 
-	mActivationStatusText = new QLabel("Innactive");
+	mActivationStatusText = new QLabel("Inactive");
 	activationStatusLayout->addWidget(mActivationStatusText);
 
 	connect(mShortcutPicker, &EQShortcutPicker::startedChangingShortcut, this, &EQAutoKeys::disableWidgets);
